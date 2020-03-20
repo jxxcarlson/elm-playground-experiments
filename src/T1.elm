@@ -28,13 +28,25 @@ main =
         }
 
 
+type alias Data =
+    { turtle : { x : Float, y : Float, angle : Float }
+    , radius : Float
+    }
+
+
 view computer turtle =
     [ rectangle black computer.screen.width computer.screen.height
     , rocket
         |> move turtle.x turtle.y
         |> rotate turtle.angle
     , turtleInfo computer turtle
+    , origin
     ]
+
+
+origin =
+    circle orange
+        10
 
 
 rocket =
