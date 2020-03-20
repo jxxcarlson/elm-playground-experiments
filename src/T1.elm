@@ -24,35 +24,53 @@ main =
     game view
         update
         { x = 0
-        , y = 0
-        , angle = 0
+        , y = 75
+        , angle = 90
         , radius = 1.0
+        , rocketLoad = 0
+        , homePlanetStock = 10
         }
 
 
 view computer turtle =
     [ rectangle black computer.screen.width computer.screen.height
-    , blueStar computer
+    , bluePlanet computer
     , greenStar computer
     , rocket
         |> move turtle.x turtle.y
         |> rotate turtle.angle
-    , info computer turtle
-    , origin
+    , infoRockePosition computer turtle
+    , infoRocketAngle computer turtle
+    , infoBluePlanet computer turtle
+    , homePlanet
     ]
 
 
-origin =
+homePlanet =
     circle orange
-        10
+        40
+
+
+
+--- ROCKET
+
+
+distanceToBluePlanet computer turtle =
+    let
+        dx =
+            turtle.x + bpx computer
+
+        dy =
+            turtle.y - bpy computer
+    in
+    sqrt (dx * dx + dy * dy)
 
 
 rocket =
     group
         [ circle lightRed 10 |> moveLeft 33
         , rectangle lightYellow 70 25
-        , circle blue 4 |> moveRight 25 |> moveUp 5
-        , circle blue 4 |> moveRight 25 |> moveDown 5
+        , circle black 8
         , triangle orange 15 |> moveRight 42 |> rotate -90
         ]
 
@@ -63,25 +81,73 @@ greenStar computer =
         |> moveDown (0.24 * computer.screen.height)
 
 
-blueStar computer =
-    circle lightBlue 170
-        |> moveLeft (computer.screen.width / 2 - 90)
+
+-- BLUE PLANET
+
+
+bpx computer =
+    computer.screen.width / 2 - 90
+
+
+bpy computer =
+    computer.screen.height / 2 - 90
+
+
+bpRadius =
+    170
+
+
+bpDockingDistance =
+    168
+
+
+bluePlanet computer =
+    circle lightBlue bpRadius
+        |> moveLeft (bpx computer)
+        |> moveUp (bpy computer)
+
+
+infoRockePosition computer turtle =
+    words white (position turtle)
+        |> moveRight (computer.screen.width / 2 - 120)
+        |> moveUp (computer.screen.height / 2 - 40)
+
+
+infoRocketAngle computer turtle =
+    words white (angleDisplay turtle)
+        |> moveRight (computer.screen.width / 2 - 120)
+        |> moveUp (computer.screen.height / 2 - 60)
+
+
+infoBluePlanet computer turtle =
+    words white (bpDistance computer turtle)
+        |> moveRight (computer.screen.width / 2 - 120)
         |> moveUp (computer.screen.height / 2 - 90)
 
 
-info computer turtle =
-    words white (position turtle) |> moveDown (computer.screen.height / 2 - 20)
-
-
 position turtle =
-    "x, y = "
+    "x, y: "
         ++ String.fromInt (round turtle.x)
         ++ ", "
         ++ String.fromInt (round turtle.y)
-        ++ "    angle = "
-        ++ String.fromInt (modBy 360 (round turtle.angle))
-        ++ "    radius = "
-        ++ String.fromFloat turtle.radius
+
+
+angleDisplay turtle =
+    "angle: " ++ String.fromInt (modBy 360 (round turtle.angle))
+
+
+bpDistance computer turtle =
+    "bluePlanet: "
+        ++ String.fromInt (round (distanceToBluePlanet computer turtle))
+
+
+
+--++ "    radius = "
+--++ String.fromFloat turtle.radius
+--++ ", rocket load = "
+--++ String.fromInt (round turtle.rocketLoad)
+--++ ", homePlanetStock = "
+--++ String.fromInt (round turtle.homePlanetStock)
 
 
 update computer turtle =
