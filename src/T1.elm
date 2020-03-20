@@ -70,22 +70,14 @@ position turtle =
 
 update computer turtle =
     if computer.keyboard.space then
-        { x = turtle.x
-        , y = turtle.y
-        , angle = 0
-        , radius = 1.0
-        }
+        { turtle | angle = 0 }
 
     else if computer.keyboard.enter then
-        { x = 0
-        , y = 0
-        , angle = 0
-        , radius = 1.0
-        }
+        { turtle | x = 0, y = 0, angle = 0 }
 
     else
-        { x = turtle.x + toY computer.keyboard * cos (degrees turtle.angle)
-        , y = turtle.y + toY computer.keyboard * sin (degrees turtle.angle)
-        , angle = turtle.angle - toX computer.keyboard
-        , radius = turtle.radius
+        { turtle
+            | x = turtle.x + toY computer.keyboard * cos (degrees turtle.angle)
+            , y = turtle.y + toY computer.keyboard * sin (degrees turtle.angle)
+            , angle = turtle.angle - toX computer.keyboard
         }
