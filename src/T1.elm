@@ -25,13 +25,8 @@ main =
         { x = 0
         , y = 0
         , angle = 0
+        , radius = 0
         }
-
-
-type alias Data =
-    { turtle : { x : Float, y : Float, angle : Float }
-    , radius : Float
-    }
 
 
 view computer turtle =
@@ -39,7 +34,7 @@ view computer turtle =
     , rocket
         |> move turtle.x turtle.y
         |> rotate turtle.angle
-    , turtleInfo computer turtle
+    , info computer turtle
     , origin
     ]
 
@@ -59,7 +54,7 @@ rocket =
         ]
 
 
-turtleInfo computer turtle =
+info computer turtle =
     words white (position turtle) |> moveDown (computer.screen.height / 2 - 20)
 
 
@@ -69,7 +64,7 @@ position turtle =
         ++ ", "
         ++ String.fromInt (round turtle.y)
         ++ ", "
-        ++ String.fromInt (round turtle.angle)
+        ++ String.fromInt (modBy 360 (round turtle.angle))
         ++ ")"
 
 
@@ -78,16 +73,19 @@ update computer turtle =
         { x = turtle.x
         , y = turtle.y
         , angle = 0
+        , radius = 1.0
         }
 
     else if computer.keyboard.enter then
         { x = 0
         , y = 0
         , angle = 0
+        , radius = 1.0
         }
 
     else
         { x = turtle.x + toY computer.keyboard * cos (degrees turtle.angle)
         , y = turtle.y + toY computer.keyboard * sin (degrees turtle.angle)
         , angle = turtle.angle - toX computer.keyboard
+        , radius = turtle.radius
         }
