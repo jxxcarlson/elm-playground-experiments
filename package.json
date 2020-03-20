@@ -1,0 +1,22 @@
+{
+  "name": "playground-experiments",
+  "version": "1.0.0",
+  "description": "This is a series of experiments using evancz/elm-playground. All examples are in `./src`.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "sh script/publish.sh",
+    "go": "open -a /Applications/Firefox.app/ https://jxxcarlson.github.io/app/elm-playground/t1.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxxcarlson/elm-playground-experiments.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jxxcarlson/elm-playground-experiments/issues"
+  },
+  "homepage": "https://github.com/jxxcarlson/elm-playground-experiments#readme"
+}
